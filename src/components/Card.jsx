@@ -2,33 +2,28 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    width: '100%'
   },
   title: {
-    fontSize: 15.2,
+    fontSize: 17.2,
+    fontWeight: 600,
+    marginBottom: '1.2em',
+    display: 'inline-block',
   },
   pos: {
     marginBottom: 8.94,
   },
 });
 
-const ICard = ({ title, children }) => {
+const ICard = ({ children }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          {title}
-        </Typography>
         {children}
       </CardContent>
     </Card>

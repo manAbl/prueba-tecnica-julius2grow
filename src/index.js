@@ -10,7 +10,7 @@ import store from './store';
 ReactDOM.render(
   <Provider store={store}>
     <CssBaseline />
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <App />
     </Container>
   </Provider>,
