@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles({
   root: {
     maxWidth: 500,
+    maxHeight: '2rem'
   },
   title: {
     marginBottom: '1.2em',

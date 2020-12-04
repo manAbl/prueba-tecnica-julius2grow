@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ITable from '../components/Table';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,8 @@ import { setEmployeesList } from '../store/actions';
 import useGetData from '../hooks/useGetData';
 import { getEmployees } from '../services/api';
 import Title from '../components/Title';
+import IconButton from '@material-ui/core/IconButton';
+import ReloadIcon from '@material-ui/icons/Replay';
 
 const tableColumns = ['name', 'salary', 'age'];
 const useStyles = makeStyles({
@@ -23,17 +25,29 @@ const useStyles = makeStyles({
 
 const Home = ({ employees, setEmployeesList }) => {
   const classes = useStyles();
-  const { data, loading } = useGetData(getEmployees);
-  if (employees.length <= 0) {
+  const [reload, setReload] = useState(false);
+  const { data, loading } = useGetData(getEmployees, reload);
+  
+  if (!employees || employees.length <= 0) {
     setEmployeesList(data);
   }
+
+  const handleReloadList = () => {
+    setReload(!reload);
+  };
 
   const handleEditItem = id => console.log(id);
   const handleDeleteItem = id => console.log(id);
 
   return (
     <div className="home-wrapper">
-      <Title title="Employees CRUD" variant="h5" />
+      <div className="flex align-items-center">
+        <Title title="Employees CRUD" variant="h5" />
+        <IconButton onClick={handleReloadList}>
+          <ReloadIcon />
+        </IconButton>
+      </div>
+
       <div className={classes.linkWrapper}>
         <Button
           color="primary"
