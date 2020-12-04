@@ -25,25 +25,14 @@ const useStyles = makeStyles({
 
 const Home = ({ employees, setEmployeesList, deleteItem }) => {
   const classes = useStyles();
-  const [reload, setReload] = useState(false);
-  const { data, loading } = useGetData(getEmployees, reload, employees);
-
-  const handleReloadList = () => {
-    setReload(!reload);
-  };
+  const [loadOnEveryMounted] = useState(false);
+  const { data, loading } = useGetData(getEmployees);
 
   const handleEditItem = id => console.log(id);
-  const handleDeleteItem = id => {
-    try {
-      deleteItem(id);
-    } catch (err) {
-      console.error(err)
-    }
-  };
+  const handleDeleteItem = id => deleteItem(id);
+  const handleReloadList = () => setEmployeesList(data);
 
-  if (!employees || employees.length <= 0) {
-    setEmployeesList(data);
-  }
+  if (loadOnEveryMounted) setEmployeesList(data);
 
   return (
     <div className="home-wrapper">
@@ -85,7 +74,7 @@ const mapStateToProps = ({ employees }) => ({
 
 const mapDispatchToProps = {
   setEmployeesList,
-  deleteItem: handleDeleteEmployee
+  deleteItem: handleDeleteEmployee,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

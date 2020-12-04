@@ -36,7 +36,6 @@ export const updateEmployee = async (id, employeeUpdated) => {
 };
 
 export const removeEmployee = async id => {
-  console.log(id, 'removeEmployee');
   url = `${apiConfig.baseUrl}/delete/${id}`;
   const data = fetch(url, { method: 'DELETE' });
   return data;
