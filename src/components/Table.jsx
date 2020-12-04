@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,8 +11,9 @@ import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { connect } from 'react-redux';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 320,
   },
@@ -32,12 +33,27 @@ const ITable = ({
   actions,
   stickyHeader,
   size,
+  search,
   ariaLabel,
   handleEditItem,
   handleDeleteItem,
 }) => {
   const classes = useStyles();
   const alignRowCells = 'left';
+
+  const [tableData, setTableData] = useState([...rows]);
+
+  useEffect(() => {
+    if (search.query && search.query !== '') {
+      setTableData(
+        tableData.filter(item =>
+          item[search.term].toString().includes(search.query)
+        )
+      );
+    } else {
+      setTableData([...rows])
+    }
+  }, [search]);
 
   return (
     <TableContainer component={Paper} className={classes.paper}>
@@ -49,14 +65,14 @@ const ITable = ({
       >
         <TableHead>
           <TableRow className="capitalize">
-            {columns.map((item) => (
+            {columns.map(item => (
               <TableCell align="left">{item}</TableCell>
             ))}
             {actions ? <TableCell width="150">actions</TableCell> : null}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {tableData.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.employee_name}
@@ -70,7 +86,7 @@ const ITable = ({
                     size="small"
                     color="primary"
                     onClick={() => handleEditItem(row.id)}
-                    >
+                  >
                     <EditIcon />
                   </IconButton>
                   <IconButton
@@ -105,4 +121,8 @@ ITable.propTypes = {
   actions: PropTypes.bool,
 };
 
-export default ITable;
+const mapStateToProps = ({ search }) => ({
+  search,
+});
+
+export default connect(mapStateToProps, null)(ITable);

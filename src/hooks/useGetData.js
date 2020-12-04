@@ -8,7 +8,7 @@ const useGetData = (apiMethod, reload) => {
   useEffect(async () => {
     setLoading(true);
     const res = await apiMethod().catch(errorsHandler);
-    if (res) {
+    if (res && res.data) {
       const { data } = await res.json();
       setData(data);
     }

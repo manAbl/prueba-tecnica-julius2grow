@@ -7,6 +7,10 @@ import storage from 'redux-persist/lib/storage';
 
 const initialState = {
   employees: [],
+  search: {
+    term: '',
+    query: ''
+  },
   currentEmployee: false,
 };
 

@@ -13,7 +13,13 @@ const reducer = (state, { payload, type }) => {
   let result;
   switch (type) {
     case `${SEARCH_EMPLOYEE}`:
-      console.log('search employee');
+      result = {
+        ...state,
+        search: {
+          term: payload.term,
+          query: payload.query
+        }
+      }
       break;
     case `${CREATE_EMPLOYEE}`:
       result = {

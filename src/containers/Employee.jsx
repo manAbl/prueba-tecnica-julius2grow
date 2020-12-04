@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ICard from '../components/Card';
 import EmployeeForm from '../components/EmployeeForm';
-import '../assets/containers/employee-styles.scss';
+import { makeStyles } from '@material-ui/core/styles';
 import Title from '../components/Title';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import {
@@ -12,8 +12,23 @@ import {
 import { useParams } from 'react-router-dom';
 import { setSelectedEmployee } from '../store/actions';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexFlow: 'column wrap',
+    minWidth: 320,
+    alignItems: 'center',
+    padding: '2.75rem 0.5rem'
+  },
+  title: {
+    marginBottom: theme.spacing(3),
+  }
+}));
+
+
 const Employee = ({ create, get, update, history: router }) => {
   let params = useParams();
+  const classes = useStyles();
   const dispatch = useDispatch();
   let title = params.id ? 'Edit employee' : 'Create employee';
 
@@ -91,8 +106,10 @@ const Employee = ({ create, get, update, history: router }) => {
   };
 
   return (
-    <div className="employee-wrapper">
-      <Title title={title} variant="h5" />
+    <div className={classes.root}>
+      <div className={classes.title}>
+        <Title title={title} variant="h5" />
+      </div>
       <ICard>
         <EmployeeForm
           formValues={form}

@@ -7,7 +7,6 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 500,
     maxHeight: '2rem',
-    marginBottom: '1.2em',
   },
 });
 
