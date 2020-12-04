@@ -24,10 +24,12 @@ const useStyles = makeStyles({
 const Home = ({ employees, setEmployeesList }) => {
   const classes = useStyles();
   const { data, loading } = useGetData(getEmployees);
-  setEmployeesList(data);
+  if (employees.length <= 0) {
+    setEmployeesList(data);
+  }
 
-  const handleEditItem = (id) => console.log(id);
-  const handleDeleteItem = (id) => console.log(id);
+  const handleEditItem = id => console.log(id);
+  const handleDeleteItem = id => console.log(id);
 
   return (
     <div className="home-wrapper">
