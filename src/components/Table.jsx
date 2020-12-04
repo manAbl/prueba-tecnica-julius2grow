@@ -37,15 +37,15 @@ const ITable = ({
   handleDeleteItem,
 }) => {
   const classes = useStyles();
-  const align = 'center';
+  const alignRowCells = 'left';
 
   return (
     <TableContainer component={Paper} className={classes.paper}>
       <Table
         stickyHeader={stickyHeader}
         className={classes.table}
-        size={size ? size : 'small'}
-        aria-label={ariaLabel ? ariaLabel : ''}
+        size={size}
+        aria-label={ariaLabel}
       >
         <TableHead>
           <TableRow className="capitalize">
@@ -61,8 +61,8 @@ const ITable = ({
               <TableCell component="th" scope="row">
                 {row.employee_name}
               </TableCell>
-              <TableCell align={align}>{row.employee_age}</TableCell>
-              <TableCell align={align}>{row.employee_salary}</TableCell>
+              <TableCell align={alignRowCells}>{row.employee_age}</TableCell>
+              <TableCell align={alignRowCells}>{row.employee_salary}</TableCell>
               {actions ? (
                 <TableCell className={classes.iconBtn}>
                   <IconButton
@@ -89,6 +89,11 @@ const ITable = ({
       </Table>
     </TableContainer>
   );
+};
+
+ITable.defaultProps = {
+  size: 'small',
+  ariaLabel: '',
 };
 
 ITable.propTypes = {
