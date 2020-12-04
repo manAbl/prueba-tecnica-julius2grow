@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   field: {
@@ -80,6 +81,13 @@ const EmployeeForm = ({
       )}
     </Formik>
   );
+};
+
+EmployeeForm.propTypes = {
+  formValues: PropTypes.object.isRequired,
+  sendRequest: PropTypes.func.isRequired,
+  validateForm: PropTypes.func,
+  handleFormCancel: PropTypes.func,
 };
 
 export default EmployeeForm;

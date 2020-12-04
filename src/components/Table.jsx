@@ -119,6 +119,9 @@ ITable.propTypes = {
   rows: PropTypes.array,
   columns: PropTypes.array,
   actions: PropTypes.bool,
+  search: PropTypes.object,
+  handleDeleteItem: PropTypes.func,
+  handleEditItem: PropTypes.func,
 };
 
 const mapStateToProps = ({ search }) => ({
