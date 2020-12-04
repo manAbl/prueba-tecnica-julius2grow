@@ -61,8 +61,8 @@ const ITable = ({
               <TableCell component="th" scope="row">
                 {row.employee_name}
               </TableCell>
-              <TableCell align={alignRowCells}>{row.employee_age}</TableCell>
               <TableCell align={alignRowCells}>{row.employee_salary}</TableCell>
+              <TableCell align={alignRowCells}>{row.employee_age}</TableCell>
               {actions ? (
                 <TableCell className={classes.iconBtn}>
                   <IconButton
