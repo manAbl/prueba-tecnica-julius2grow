@@ -3,6 +3,7 @@ import {
   CREATE_EMPLOYEE,
   DELETE_EMPLOYEE,
   SEARCH_EMPLOYEE,
+  SET_EMPLOYEES_LIST,
 } from '../../storeActionTypes';
 
 const reducer = (state, { payload, type }) => {
@@ -19,6 +20,12 @@ const reducer = (state, { payload, type }) => {
       break;
     case `${SEARCH_EMPLOYEE}`:
       console.log('search employee')
+      break;
+    case `${SET_EMPLOYEES_LIST}`:
+      result = {
+        ...state,
+        employees: payload,
+      };
       break;
     default:
       result = {

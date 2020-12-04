@@ -16,62 +16,78 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 320,
   },
+  paper: {
+    maxHeight: '60vh',
+  },
   iconBtn: {
     '& > *': {
       margin: theme.spacing(1),
     },
-  }
+  },
 }));
 
-const ITable = ({ rows, columns, actions, stickyHeader, size, ariaLabel }) => {
+const ITable = ({
+  rows,
+  columns,
+  actions,
+  stickyHeader,
+  size,
+  ariaLabel,
+  handleEditItem,
+  handleDeleteItem,
+}) => {
   const classes = useStyles();
   const align = 'center';
 
   return (
-    <div className="table-wrapper relative">
-      <TableContainer component={Paper}>
-        <Table
-          stickyHeader={stickyHeader}
-          className={classes.table}
-          size={size ? size : 'small'}
-          aria-label={ariaLabel ? ariaLabel : ''}
-        >
-          <TableHead>
-            <TableRow className="capitalize">
-              {columns.map((item) => (
-                <TableCell align="left">{item}</TableCell>
-              ))}
-              {actions ? <TableCell>actions</TableCell> : null}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align={align}>{row.calories}</TableCell>
-                <TableCell align={align}>{row.fat}</TableCell>
-                {actions ? (
-                  <TableCell className={classes.iconBtn}>
-                    <IconButton variant="outlined" size="small" color="primary">
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                ) : null}
-              </TableRow>
+    <TableContainer component={Paper} className={classes.paper}>
+      <Table
+        stickyHeader={stickyHeader}
+        className={classes.table}
+        size={size ? size : 'small'}
+        aria-label={ariaLabel ? ariaLabel : ''}
+      >
+        <TableHead>
+          <TableRow className="capitalize">
+            {columns.map((item) => (
+              <TableCell align="left">{item}</TableCell>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+            {actions ? <TableCell width="150">actions</TableCell> : null}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+              <TableCell component="th" scope="row">
+                {row.employee_name}
+              </TableCell>
+              <TableCell align={align}>{row.employee_age}</TableCell>
+              <TableCell align={align}>{row.employee_salary}</TableCell>
+              {actions ? (
+                <TableCell className={classes.iconBtn}>
+                  <IconButton
+                    variant="outlined"
+                    size="small"
+                    color="primary"
+                    onClick={() => handleDeleteItem(row.id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    onClick={() => handleEditItem(row.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              ) : null}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

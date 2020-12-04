@@ -1,57 +1,75 @@
 import React from 'react';
-import '../assets/containers/home-styles.scss';
 import ITable from '../components/Table';
-import ICard from '../components/Card';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import '../assets/containers/home-styles.scss';
+import { setEmployeesList } from '../store/actions';
+import useGetData from '../hooks/useGetData';
+import { getEmployees } from '../services/api';
 
+const tableColumns = ['name', 'salary', 'age'];
 const useStyles = makeStyles({
   title: {
     fontSize: 17.2,
     fontWeight: 600,
     marginBottom: '1.2em',
-    display: 'inline-block',
+    width: '100%'
   },
   createLink: {
     float: 'right',
   },
   linkWrapper: {
-    marginBottom: '1.2rem',
     width: '100%',
-    height: '1rem',
-    padding: '0 0.4rem'
-  }
+    height: '3rem',
+  },
 });
 
-const Home = () => {
+const Home = ({ employees, setEmployeesList }) => {
   const classes = useStyles();
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  const { data, loading } = useGetData(getEmployees);
+  setEmployeesList(data);
 
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-  ];
+  const handleEditItem = (id) => console.log(id);
+  const handleDeleteItem = (id) => console.log(id);
 
-  const columns = ['name', 'salary', 'age'];
   return (
     <div className="home-wrapper">
       <Typography className={classes.title} color="textSecondary" gutterBottom>
         Employees CRUD
       </Typography>
-      <ICard title="Employees list">
-        <div className={classes.linkWrapper}>
-          <Link to="/create/employee" className={classes.createLink}>
-            Add employee
-          </Link>
-        </div>
-        <ITable rows={rows} columns={columns} actions stickyHeader actions />
-      </ICard>
+      <div className={classes.linkWrapper}>
+        <Button
+          color="primary"
+          href="/create/employee"
+          className={classes.createLink}
+        >
+          Add employee
+        </Button>
+      </div>
+      {loading ? (
+        <div> Loading ...</div>
+      ) : (
+        <ITable
+          stickyHeader
+          actions
+          rows={employees}
+          columns={tableColumns}
+          handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
+        />
+      )}
     </div>
   );
 };
 
-export default Home;
+const mapStateToProps = ({ employees }) => ({
+  employees,
+});
+
+const mapDispatchToProps = {
+  setEmployeesList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

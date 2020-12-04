@@ -4,8 +4,8 @@ import {
   DELETE_EMPLOYEE,
   SEARCH_EMPLOYEE,
   VIEW_EMPLOYEE,
+  SET_EMPLOYEES_LIST,
 } from '../../storeActionTypes';
-
 
 export const createEmployee = (payload) => ({
   type: CREATE_EMPLOYEE,
@@ -29,5 +29,10 @@ export const searchEmployee = (payload) => ({
 
 export const viewEmployee = (payload) => ({
   type: VIEW_EMPLOYEE,
+  payload,
+});
+
+export const setEmployeesList = (payload) => ({
+  type: SET_EMPLOYEES_LIST,
   payload,
 });
