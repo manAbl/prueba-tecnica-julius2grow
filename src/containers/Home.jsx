@@ -8,15 +8,10 @@ import '../assets/containers/home-styles.scss';
 import { setEmployeesList } from '../store/actions';
 import useGetData from '../hooks/useGetData';
 import { getEmployees } from '../services/api';
+import Title from '../components/Title';
 
 const tableColumns = ['name', 'salary', 'age'];
 const useStyles = makeStyles({
-  title: {
-    fontSize: 17.2,
-    fontWeight: 600,
-    marginBottom: '1.2em',
-    width: '100%'
-  },
   createLink: {
     float: 'right',
   },
@@ -36,13 +31,11 @@ const Home = ({ employees, setEmployeesList }) => {
 
   return (
     <div className="home-wrapper">
-      <Typography className={classes.title} color="textSecondary" gutterBottom>
-        Employees CRUD
-      </Typography>
+      <Title title="Employees CRUD" variant="h5" />
       <div className={classes.linkWrapper}>
         <Button
           color="primary"
-          href="/create/employee"
+          href="/create-employee"
           className={classes.createLink}
         >
           Add employee
