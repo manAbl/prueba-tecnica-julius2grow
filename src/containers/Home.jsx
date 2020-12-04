@@ -11,6 +11,7 @@ import Title from '../components/Title';
 import IconButton from '@material-ui/core/IconButton';
 import ReloadIcon from '@material-ui/icons/Replay';
 import { handleDeleteEmployee } from '../thunks';
+import { Link } from 'react-router-dom';
 
 const tableColumns = ['name', 'salary', 'age'];
 const useStyles = makeStyles({
@@ -23,12 +24,15 @@ const useStyles = makeStyles({
   },
 });
 
-const Home = ({ employees, setEmployeesList, deleteItem }) => {
+const Home = ({ employees, setEmployeesList, deleteItem, history: router }) => {
   const classes = useStyles();
   const [loadOnEveryMounted] = useState(false);
   const { data, loading } = useGetData(getEmployees);
 
-  const handleEditItem = id => console.log(id);
+  const handleEditItem = id => {
+    router.push(`/employee/${id}`);
+  };
+
   const handleDeleteItem = id => deleteItem(id);
   const handleReloadList = () => setEmployeesList(data);
 
@@ -44,13 +48,11 @@ const Home = ({ employees, setEmployeesList, deleteItem }) => {
       </div>
 
       <div className={classes.linkWrapper}>
-        <Button
-          color="primary"
-          href="/create-employee"
-          className={classes.createLink}
-        >
-          Add employee
-        </Button>
+        <Link to="/create-employee">
+          <Button color="primary" className={classes.createLink}>
+            Add employee
+          </Button>
+        </Link>
       </div>
       {loading ? (
         <div> Loading ...</div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
@@ -17,53 +17,22 @@ const useStyles = makeStyles({
   },
 });
 
-const EmployeeForm = ({ sendRequest }) => {
+const EmployeeForm = ({
+  formValues: form,
+  validateForm,
+  handleFormCancel,
+  sendRequest,
+}) => {
   const classes = useStyles();
-  const [form, setValue] = useState({
-    employee_name: '',
-    employee_age: '',
-    employee_salary: '',
-    id: null,
-  });
-
-  const handleInputChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleFormSubmit = data => {
-    if (!Object.keys(validateForm(data)).length) {
-      sendRequest(data);
-    }
-  };
-
-  const validateForm = form => {
-    let errors = {};
-    const fieldsEmpty = Object.keys(form).filter(
-      key => key != 'id' && !form[key]
-    );
-
-    if (fieldsEmpty.length) {
-      fieldsEmpty.forEach(key => {
-        errors[key] = 'This field is required';
-      });
-    }
-
-    if (form.employee_age > 120) {
-      errors.employee_age = 'Invalid age';
-    }
-
-    if (typeof form.employee_salary != 'number') {
-      errors.employee_salary = 'This field only accepts numbers';
-    }
-
-    return errors;
-  };
 
   return (
     <Formik
+      enableReinitialize
       initialValues={form}
-      validate={validateForm}
-      onSubmit={handleFormSubmit}
+      validate={values => validateForm(values)}
+      onSubmit={values => {
+        sendRequest(values);
+      }}
     >
       {({ submitForm, isSubmitting }) => (
         <Form>
@@ -92,7 +61,7 @@ const EmployeeForm = ({ sendRequest }) => {
             className={classes.field}
           />
           <footer className={classes.footer}>
-            <Button href="/">Cancel</Button>
+            <Button onClick={handleFormCancel}>Cancel</Button>
             <Button
               color="primary"
               disabled={isSubmitting}

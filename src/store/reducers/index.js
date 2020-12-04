@@ -4,6 +4,8 @@ import {
   SEARCH_EMPLOYEE,
   SET_EMPLOYEES_LIST,
   DELETE_EMPLOYEE,
+  VIEW_EMPLOYEE,
+  UPDATE_EMPLOYEE,
 } from '../../storeActionTypes';
 import { toast } from 'react-toastify';
 
@@ -19,6 +21,18 @@ const reducer = (state, { payload, type }) => {
         employees: [...state.employees, payload],
       };
       break;
+    case `${UPDATE_EMPLOYEE}`:
+      result = {
+        ...state,
+        employees: state.employees.map(item => {
+          if (item.id == payload.id) {
+            return {
+              ...payload,
+            };
+          } else return item
+        }),
+      };
+      break;
     case `${DELETE_EMPLOYEE}`:
       result = {
         ...state,
@@ -29,6 +43,11 @@ const reducer = (state, { payload, type }) => {
       toast(payload);
       result = {
         ...state,
+      };
+    case `${VIEW_EMPLOYEE}`:
+      result = {
+        ...state,
+        currentEmployee: payload,
       };
       break;
     case `${SET_EMPLOYEES_LIST}`:

@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 
 const initialState = {
   employees: [],
-  currentEmployee: {},
+  currentEmployee: false,
 };
 
 const persistedReducer = persistReducer(

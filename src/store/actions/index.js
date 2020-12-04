@@ -13,7 +13,7 @@ export const addEmployee = payload => ({
   payload,
 });
 
-export const updateEmployee = payload => ({
+export const saveUpdatedEmployee = payload => ({
   type: UPDATE_EMPLOYEE,
   payload,
 });
@@ -28,7 +28,7 @@ export const searchEmployee = payload => ({
   payload,
 });
 
-export const viewEmployee = payload => ({
+export const setSelectedEmployee = payload => ({
   type: VIEW_EMPLOYEE,
   payload,
 });

@@ -2,9 +2,16 @@ import {
   createEmployee,
   updateEmployee,
   removeEmployee,
+  viewEmployee,
 } from '../services/api';
 import { errorsHandler } from '../services/notifications';
-import { notify, addEmployee, deleteEmployee } from '../store/actions';
+import {
+  notify,
+  addEmployee,
+  deleteEmployee,
+  setSelectedEmployee,
+  saveUpdatedEmployee,
+} from '../store/actions';
 
 export function handleCreateEmployee(data) {
   return function (dispatch) {
@@ -36,13 +43,22 @@ export function handleCreateEmployee(data) {
 
 export function handleUpdateEmployee(data) {
   return function (dispatch) {
-    return updateEmployee(data)
+    return updateEmployee(data.id, data)
       .then(async res => {
         let { status, message } = await res.json();
-        dispatch(
-          notify(status == 'success' ? message : 'Something wrong happened..')
-        );
-        return Promise.resolve();
+        let msg = status == 'success' ? message : 'Something wrong happened..';
+        dispatch(notify(msg));
+
+        if (status == 'success') {
+          dispatch(
+            saveUpdatedEmployee({
+              ...data,
+            })
+          );
+          return Promise.resolve();
+        } else {
+          return Promise.reject();
+        }
       })
       .catch(errorsHandler);
   };
@@ -53,13 +69,30 @@ export function handleDeleteEmployee(id) {
     return removeEmployee(id)
       .then(async res => {
         let { status, message } = await res.json();
-        let isSuccess = status == 'success'; 
+        let isSuccess = status == 'success';
         let msg = isSuccess ? message : 'Something wrong happened..';
-        
+
         dispatch(notify(msg));
-        
+
         if (isSuccess) {
-          dispatch(deleteEmployee(id))
+          dispatch(deleteEmployee(id));
+          return Promise.resolve();
+        } else {
+          return Promise.reject();
+        }
+      })
+      .catch(errorsHandler);
+  };
+}
+
+export function handleGetEmployeeData(id) {
+  return function (dispatch) {
+    return viewEmployee(id)
+      .then(async res => {
+        let { status, data } = await res.json();
+        let isSuccess = status == 'success';
+        if (isSuccess) {
+          dispatch(setSelectedEmployee(data));
           return Promise.resolve();
         } else {
           return Promise.reject();
