@@ -1,7 +1,9 @@
 import {
   NOTIFY_USER,
+  CREATE_EMPLOYEE,
   SEARCH_EMPLOYEE,
   SET_EMPLOYEES_LIST,
+  DELETE_EMPLOYEE,
 } from '../../storeActionTypes';
 import { toast } from 'react-toastify';
 
@@ -11,14 +13,35 @@ const reducer = (state, { payload, type }) => {
     case `${SEARCH_EMPLOYEE}`:
       console.log('search employee');
       break;
-    case `${NOTIFY_USER}`:
-      toast(payload);
-      break;
-    case `${SET_EMPLOYEES_LIST}`:
+    case `${CREATE_EMPLOYEE}`:
       result = {
         ...state,
-        employees: payload,
+        employees: [...state.employees, payload],
       };
+      break;
+    case `${DELETE_EMPLOYEE}`:
+      result = {
+        ...state,
+        employees: state.employees.filter(item => item.id != payload),
+      };
+      break;
+    case `${NOTIFY_USER}`:
+      toast(payload);
+      result = {
+        ...state,
+      };
+      break;
+    case `${SET_EMPLOYEES_LIST}`:
+      if (payload) {
+        result = {
+          ...state,
+          employees: payload,
+        };
+      } else {
+        result = {
+          ...state,
+        };
+      }
       break;
     default:
       result = {

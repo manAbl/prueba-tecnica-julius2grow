@@ -6,18 +6,16 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles({
   root: {
     maxWidth: 500,
-    maxHeight: '2rem'
-  },
-  title: {
+    maxHeight: '2rem',
     marginBottom: '1.2em',
   },
 });
 
-const Title = ({ title, variant }) => {
+const Title = ({ title, variant, className }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant={variant} component="h2" className={classes.title}>
+      <Typography variant={variant} component="h2" className={className}>
         {title}
       </Typography>
     </div>

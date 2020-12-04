@@ -69,15 +69,15 @@ const ITable = ({
                     variant="outlined"
                     size="small"
                     color="primary"
-                    onClick={() => handleDeleteItem(row.id)}
-                  >
+                    onClick={() => handleEditItem(row.id)}
+                    >
                     <EditIcon />
                   </IconButton>
                   <IconButton
                     variant="outlined"
                     size="small"
                     color="secondary"
-                    onClick={() => handleEditItem(row.id)}
+                    onClick={() => handleDeleteItem(row.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

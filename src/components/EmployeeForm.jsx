@@ -20,13 +20,11 @@ const useStyles = makeStyles({
 const EmployeeForm = ({ sendRequest }) => {
   const classes = useStyles();
   const [form, setValue] = useState({
-    name: '',
-    age: '',
-    salary: '',
+    employee_name: '',
+    employee_age: '',
+    employee_salary: '',
     id: null,
   });
-
-  const [errors, setFieldError] = useState([]);
 
   const handleInputChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -50,12 +48,12 @@ const EmployeeForm = ({ sendRequest }) => {
       });
     }
 
-    if (form.age > 120) {
-      errors.age = 'Invalid age';
+    if (form.employee_age > 120) {
+      errors.employee_age = 'Invalid age';
     }
 
-    if (typeof form.salary != 'number') {
-      errors.salary = 'This field only accepts numbers'
+    if (typeof form.employee_salary != 'number') {
+      errors.employee_salary = 'This field only accepts numbers';
     }
 
     return errors;
@@ -72,7 +70,7 @@ const EmployeeForm = ({ sendRequest }) => {
           <Field
             component={TextField}
             label="Full name"
-            name="name"
+            name="employee_name"
             type="text"
             required
             className={classes.field}
@@ -82,13 +80,13 @@ const EmployeeForm = ({ sendRequest }) => {
             component={TextField}
             type="number"
             label="Age"
-            name="age"
+            name="employee_age"
           />
           <br />
           <Field
             component={TextField}
             label="Salary"
-            name="salary"
+            name="employee_salary"
             type="number"
             required
             className={classes.field}

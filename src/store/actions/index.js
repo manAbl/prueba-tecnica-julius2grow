@@ -8,7 +8,7 @@ import {
   SET_EMPLOYEES_LIST,
 } from '../../storeActionTypes';
 
-export const createEmployee = payload => ({
+export const addEmployee = payload => ({
   type: CREATE_EMPLOYEE,
   payload,
 });
