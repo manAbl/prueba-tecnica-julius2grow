@@ -3,12 +3,18 @@ import ICard from '../components/Card';
 import EmployeeForm from '../components/EmployeeForm';
 import '../assets/containers/employee-styles.scss';
 import Title from '../components/Title';
+import { connect } from 'react-redux';
+import useComponentMode from '../hooks/useComponentMode';
+import { handleCreateEmployee, handleUpdateEmployee } from '../thunks';
 
-const Employee = () => {
+const Employee = ({ create, history: router, update }) => {
   let title = 'Create employee';
-  const handleSendRequest = e => {
-    console.log(e);
+  const { mode } = useComponentMode();
+  const handleSendRequest = data => {
+    let method = mode == 'create' ? create : update;
+    method(data).then(() => router.push('/'));
   };
+
   return (
     <div className="employee-wrapper">
       <Title title={title} variant="h5" />
@@ -19,4 +25,9 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+const mapDispatchToProps = {
+  create: handleCreateEmployee,
+  update: handleUpdateEmployee,
+};
+
+export default connect(null, mapDispatchToProps)(Employee);

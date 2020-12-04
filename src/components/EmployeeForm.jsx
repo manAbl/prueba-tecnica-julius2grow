@@ -32,21 +32,38 @@ const EmployeeForm = ({ sendRequest }) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFormSubmit = () => {
-    sendRequest(form);
+  const handleFormSubmit = data => {
+    if (!Object.keys(validateForm(data)).length) {
+      sendRequest(data);
+    }
   };
 
-  //TODO: Validate form before sending data
-  const validateForm = values => {
-    console.log(values);
+  const validateForm = form => {
+    let errors = {};
+    const fieldsEmpty = Object.keys(form).filter(
+      key => key != 'id' && !form[key]
+    );
+
+    if (fieldsEmpty.length) {
+      fieldsEmpty.forEach(key => {
+        errors[key] = 'This field is required';
+      });
+    }
+
+    if (form.age > 120) {
+      errors.age = 'Invalid age';
+    }
+
+    if (typeof form.salary != 'number') {
+      errors.salary = 'This field only accepts numbers'
+    }
+
+    return errors;
   };
 
   return (
     <Formik
-      initialValues={{
-        email: '',
-        password: '',
-      }}
+      initialValues={form}
       validate={validateForm}
       onSubmit={handleFormSubmit}
     >
@@ -54,18 +71,26 @@ const EmployeeForm = ({ sendRequest }) => {
         <Form>
           <Field
             component={TextField}
-            name="email"
-            type="email"
+            label="Full name"
+            name="name"
+            type="text"
+            required
             className={classes.field}
-            label="Email"
           />
-          <Field component={TextField} type="number" label="Age" name="Age" />
+          <Field
+            required
+            component={TextField}
+            type="number"
+            label="Age"
+            name="age"
+          />
           <br />
           <Field
             component={TextField}
-            type="password"
-            label="Password"
-            name="password"
+            label="Salary"
+            name="salary"
+            type="number"
+            required
             className={classes.field}
           />
           <footer className={classes.footer}>

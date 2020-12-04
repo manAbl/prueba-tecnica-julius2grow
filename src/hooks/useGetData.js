@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import errorsHandler from '../services/api/notifications/errors';
+import { errorsHandler } from '../services/notifications.js';
 
-const useGetData = (apiMethod) => {
+const useGetData = apiMethod => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
-    const res = await apiMethod().catch((err) => {
-      errorsHandler(err);
-    });
+    const res = await apiMethod().catch(errorsHandler);
     const { data } = await res.json();
     setData(data);
     setLoading(false);

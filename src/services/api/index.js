@@ -8,22 +8,19 @@ export const getEmployees = async () => {
   return data;
 };
 
-export const viewEmployee = async (id) => {
+export const viewEmployee = async id => {
   url = `${apiConfig.baseUrl}/employee/${id}`;
   const data = fetch(url, { method: 'GET' });
   return data;
 };
 
-export const createEmployee = async (employee) => {
+export const createEmployee = async employee => {
   if (!employee) {
     return new Error(errorsHandler(employee));
   }
   url = `${apiConfig.baseUrl}/create`;
   const data = fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
     body: JSON.stringify(employee),
   });
   return data;
@@ -33,13 +30,12 @@ export const updateEmployee = async (id, employeeUpdated) => {
   url = `${apiConfig.baseUrl}/update/${id}`;
   const data = fetch(url, {
     method: 'PUT',
-    headers: { 'Content-type': 'application/json; charset=UTF-8' },
     body: JSON.stringify(employeeUpdated),
   });
   return data;
 };
 
-export const removeEmployee = async (id) => {
+export const removeEmployee = async id => {
   url = `${apiConfig.baseUrl}/delete/${id}`;
   const data = fetch(url, { method: 'DELETE' });
   return data;
