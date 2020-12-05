@@ -26,7 +26,9 @@ module.exports = () => {
       extensions: ['.js', '.jsx'],
     },
     devServer: {
+      open: true,
       contentBase: './public',
+      historyApiFallback: true,
     },
     module: {
       rules: [
@@ -63,9 +65,6 @@ module.exports = () => {
           ],
         },
       ],
-    },
-    devServer: {
-      historyApiFallback: true,
     },
     plugins: [
       new HtmlWebPackPlugin({
