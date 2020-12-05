@@ -47,13 +47,13 @@ const ITable = ({
     if (search.query && search.query !== '') {
       setTableData(
         tableData.filter(item =>
-          item[search.term].toString().includes(search.query)
+          item[search.term].toString().includes(search.query.toString())
         )
       );
     } else {
-      setTableData([...rows])
+      setTableData([...rows]);
     }
-  }, [search]);
+  }, [search, rows]);
 
   return (
     <TableContainer component={Paper} className={classes.paper}>

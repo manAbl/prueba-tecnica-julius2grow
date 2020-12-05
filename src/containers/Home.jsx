@@ -49,7 +49,7 @@ const Home = ({ employees, setEmployeesList, deleteItem, history: router }) => {
     },
   ];
 
-  const [loadOnEveryMounted] = useState(false);
+  const [mounted, setMounted] = useState(true);
   const { data, loading } = useGetData(getEmployees);
 
   const handleEditItem = id => {
@@ -57,14 +57,21 @@ const Home = ({ employees, setEmployeesList, deleteItem, history: router }) => {
   };
 
   const handleDeleteItem = id => deleteItem(id);
-  const handleReloadList = () => setData(data);
+  const handleReloadList = () => {
+    setData(data);
+  };
 
   const setData = data => {
     setEmployeesList(data.sort((a, b) => sortBy(a, b, 'employee_name')));
   };
 
-  if (loadOnEveryMounted) {
-    setData(data);
+  if (mounted) {
+    if (!employees.length) {
+      setData(data);
+    }
+    if (data.length || employees.length) {
+      setMounted(false);
+    }
   }
 
   return (

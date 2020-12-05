@@ -86,18 +86,18 @@ export function handleDeleteEmployee(id) {
 }
 
 export function handleGetEmployeeData(id) {
-  return function (dispatch) {
-    return viewEmployee(id)
-      .then(async res => {
-        let { status, data } = await res.json();
-        let isSuccess = status == 'success';
-        if (isSuccess) {
-          dispatch(setSelectedEmployee(data));
-          return Promise.resolve();
-        } else {
-          return Promise.reject();
-        }
-      })
-      .catch(errorsHandler);
+  return function (dispatch, getState) {
+    return viewEmployee(id).then(async res => {
+      let { status, data } = await res.json();
+      let isSuccess = status == 'success';
+      if (isSuccess && data) {
+        dispatch(setSelectedEmployee(data));
+      } else {
+        // I'm assuming is a fake created
+        const employeeData = getState().employees.find(item => item.id == id);
+        dispatch(setSelectedEmployee(employeeData));
+      }
+      return Promise.resolve();
+    });
   };
 }

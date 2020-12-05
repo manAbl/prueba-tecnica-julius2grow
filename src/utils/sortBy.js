@@ -6,7 +6,7 @@ export default function sortBy(a, b, property) {
     if (aSort < bSort) return -1;
     if (aSort > bSort) return 1;
   } catch (err) {
-    console.trace(err);
+    console.info(err);
     return 0;
   }
 };
